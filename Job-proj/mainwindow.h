@@ -36,7 +36,7 @@ private:
     QString path;
     QTcpSocket* socket;
     QByteArray Data;
-    void SendToServer(QString str);
+    void SendToServer(QVector<QString> str);
     quint64 nextBlockSize;
 
 
