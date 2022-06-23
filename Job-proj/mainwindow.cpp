@@ -30,6 +30,7 @@ void MainWindow::on_pushButton_clicked()
         return;
     QString s = "";
     QVector<QString>qv;
+    qv.push_back("0");
     while (!file.atEnd()) {
         QString line = file.readLine();
         line.chop(1);
@@ -42,48 +43,6 @@ void MainWindow::on_pushButton_clicked()
     }
     s.chop(1);
     SendToServer(qv);
-//    QString qs1 = "";
-//    QString qs2 = "";
-//    QMap<QChar, int> d1 = repeatFinder.get_qdata();
-//    QMap<int, QVector<QString>> d2 = lengthSorter.get_qdata();
-
-//    for( QMap<QChar, int>::iterator i = d1.begin(); i != d1.end(); i++){
-//        qs1.append(i.key());
-//        qs1.append(" - " + QString::number(i.value()) + "\n");
-//    }
-//    ui->textBrowser->setText(qs1);
-
-//    for(QMap<int, QVector<QString>>::iterator i = d2.begin(); i != d2.end(); i++){
-//        int c = 0;
-//        for(QString j: i.value()){
-//            if(c == 0)qs2.append(QString::number(i.key()));
-//            else qs2.append(" ");
-//            qs2.append(" - " + j + "\n");
-//            c++;
-//        }
-//    }
-//    //qDebug() << qs2;
-//    ui->textBrowser_2->setText(qs2);
-
-    //qDebug() << "First: " << d1 << "Second: " << d2;
-//    for(std::unordered_map<char, int>::iterator i = data.begin(); i != data.end(); i++){
-//        qs1.append(i->first);
-//        qs1.append(" - " + QString::number(i->second) + "\n");
-//    }
-//    qDebug() << qs1;
-//    ui->textBrowser->setText(qs1);
-//    QString qs2 = "";
-//    for(std::map<int, std::vector<std::string>>::iterator i = data2.begin(); i != data2.end(); i++){
-//        int c = 0;
-//        for(std::string j: i->second){
-//            if(c == 0)qs2.append(QString::number(i->first));
-//            else qs2.append(" ");
-//            qs2.append(" - " + QString::fromStdString(j) + "\n");
-//            c++;
-//        }
-//    }
-//    qDebug() << qs2;
-//    ui->textBrowser_2->setText(qs2);
     file.close();
 }
 
@@ -106,9 +65,7 @@ void MainWindow::SendToServer(QVector<QString> str)
     Data.clear();
     QDataStream out(&Data, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_14);
-    out << quint64(0) << str;
-    out.device()->seek(0);
-    out << quint64(Data.size() - sizeof(quint64));
+    out  << str;
     socket->write(Data);
 }
 
@@ -120,25 +77,14 @@ void MainWindow::slotReadyRead()
 //        QString str;
 //        in >> str;
 //        ui->textBrowser->append(str);
-        for (;;) {
-            if(nextBlockSize == 0)
-            {
-                if(socket->bytesAvailable() < 2)
-                {
-                    break;
-                }
-                in >> nextBlockSize;
-            }
-            if(socket->bytesAvailable() < nextBlockSize)
-            {
-                break;
-            }
-
-            QMap<QChar, int> d1;
-            QMap<int, QVector<QString>> d2;
-            QString qs1 = "";
-            QString qs2 = "";
-            in >> d1 >> d2;
+        QMap<QChar, int> d1;
+        QMap<int, QVector<QString>> d2;
+        QString qs1 = "";
+        QString qs2 = "";
+        QVector<QString> qv;
+        in >> d1 >> d2 >> qv;
+        if(d1.size() != 0 && d2.size() != 0){
+            //qDebug() << qv;
             nextBlockSize = 0;
 
             for( QMap<QChar, int>::iterator i = d1.begin(); i != d1.end(); i++){
@@ -156,10 +102,14 @@ void MainWindow::slotReadyRead()
                     c++;
                 }
             }
-            //qDebug() << qs2;
+            qDebug() << qv;
             ui->textBrowser_2->setText(qs2);
-
-            //ui->textBrowser->append(str);
+        }
+        if(qv.size() != 0){
+            ui->textBrowser_3->clear();
+            for(int i = 0; i < qv.size(); i++){
+                ui->textBrowser_3->append(qv[i]);
+            }
         }
     }
     else
@@ -170,5 +120,6 @@ void MainWindow::slotReadyRead()
 
 void MainWindow::on_pushButton_4_clicked()
 {
-    //SendToServer("Teeeesting");
+    SendToServer(QVector<QString>{"1"});
+
 }

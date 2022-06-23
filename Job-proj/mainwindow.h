@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QTextDocument>
 #include <QTcpSocket>
+#include <QTableView>
 #include "algorithms.h"
 
 QT_BEGIN_NAMESPACE
@@ -37,7 +38,7 @@ private:
     QTcpSocket* socket;
     QByteArray Data;
     void SendToServer(QVector<QString> str);
-    quint64 nextBlockSize;
+    quint16 nextBlockSize;
 
 
 public slots:

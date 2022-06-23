@@ -32,6 +32,7 @@ public:
     QTextBrowser *textBrowser_2;
     QPushButton *pushButton_3;
     QPushButton *pushButton_4;
+    QTextBrowser *textBrowser_3;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -39,7 +40,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(809, 594);
+        MainWindow->resize(789, 698);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         pushButton = new QPushButton(centralwidget);
@@ -60,14 +61,17 @@ public:
         textBrowser_2->setGeometry(QRect(480, 40, 291, 361));
         pushButton_3 = new QPushButton(centralwidget);
         pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-        pushButton_3->setGeometry(QRect(350, 520, 91, 22));
+        pushButton_3->setGeometry(QRect(350, 420, 91, 22));
         pushButton_4 = new QPushButton(centralwidget);
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
-        pushButton_4->setGeometry(QRect(490, 520, 91, 22));
+        pushButton_4->setGeometry(QRect(350, 450, 91, 22));
+        textBrowser_3 = new QTextBrowser(centralwidget);
+        textBrowser_3->setObjectName(QString::fromUtf8("textBrowser_3"));
+        textBrowser_3->setGeometry(QRect(20, 490, 751, 151));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 809, 21));
+        menubar->setGeometry(QRect(0, 0, 789, 21));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -85,7 +89,7 @@ public:
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "openFile", nullptr));
         label->setText(QString());
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "connect", nullptr));
-        pushButton_4->setText(QCoreApplication::translate("MainWindow", "test", nullptr));
+        pushButton_4->setText(QCoreApplication::translate("MainWindow", "Get log", nullptr));
     } // retranslateUi
 
 };
